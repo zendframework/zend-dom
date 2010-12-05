@@ -14,7 +14,6 @@
  *
  * @category   Zend
  * @package    Zend_Dom
- * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -22,29 +21,17 @@
 /**
  * @namespace
  */
-namespace ZendTest\Dom;
-
-use Zend\Dom\NodeList;
+namespace Zend\Dom\Exception;
 
 /**
+ * Zend_Dom Exceptions
+ *
+ * @uses       \Zend\Dom\Exception
  * @category   Zend
  * @package    Zend_Dom
- * @subpackage UnitTests
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @group      Zend_Dom
  */
-class NodeListTest extends \PHPUnit_Framework_TestCase
+class RuntimeException extends \RuntimeException implements \Zend\Dom\Exception
 {
-    /**
-     * @group ZF-4631
-     */
-    public function testEmptyResultDoesNotReturnIteratorValidTrue()
-    {
-        $dom = new \DOMDocument();
-        $emptyNodeList = $dom->getElementsByTagName("a");
-        $result = new NodeList("", "", $dom, $emptyNodeList);
-
-        $this->assertFalse($result->valid());
-    }
 }
