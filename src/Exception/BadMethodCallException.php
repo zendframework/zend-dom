@@ -12,6 +12,6 @@ namespace Zend\Dom\Exception;
 /**
  * Zend_Dom Exceptions
  */
-class RuntimeException extends \RuntimeException implements ExceptionInterface
+class BadMethodCallException extends \BadMethodCallException implements ExceptionInterface
 {
 }
