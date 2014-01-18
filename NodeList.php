@@ -18,8 +18,6 @@ use Iterator;
 
 /**
  * Nodelist for DOM XPath query
- * @deprecated
- * @see \Zend\Dom\Document\NodeList
  */
 class NodeList implements Iterator, Countable, ArrayAccess
 {
