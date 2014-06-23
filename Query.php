@@ -3,18 +3,18 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Zend\Dom;
 
 use DOMDocument;
+use DOMXPath;
+use Zend\Stdlib\ErrorHandler;
 
 /**
  * Query DOM structures based on CSS selectors and/or XPath
- * @deprecated
- * @see \Zend\Dom\Document\Query
  */
 class Query
 {
@@ -210,7 +210,7 @@ class Query
      */
     public function execute($query)
     {
-        $xpathQuery = Document\Query::cssToXpath($query);
+        $xpathQuery = Css2Xpath::transform($query);
         return $this->queryXpath($xpathQuery, $query);
     }
 
@@ -298,7 +298,6 @@ class Query
      * @param  DOMDocument $document
      * @param  string|array $xpathQuery
      * @return array
-     * @throws \ErrorException If query cannot be executed
      */
     protected function getNodeList($document, $xpathQuery)
     {
@@ -314,7 +313,12 @@ class Query
         }
         $xpathQuery = (string) $xpathQuery;
 
-        $nodeList = $xpath->queryWithErrorException($xpathQuery);
+        ErrorHandler::start();
+        $nodeList = $xpath->query($xpathQuery);
+        $error = ErrorHandler::stop();
+        if ($error) {
+            throw $error;
+        }
         return $nodeList;
     }
 }

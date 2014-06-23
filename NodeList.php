@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -18,8 +18,6 @@ use Iterator;
 
 /**
  * Nodelist for DOM XPath query
- * @deprecated
- * @see \Zend\Dom\Document\NodeList
  */
 class NodeList implements Iterator, Countable, ArrayAccess
 {
@@ -195,7 +193,7 @@ class NodeList implements Iterator, Countable, ArrayAccess
      *
      * @param  mixed $key
      * @param  mixed $value
-     * @throws Exception\BadMethodCallException when attempting to write to a read-only item
+     * @throws Exception\BadMethodCallException when attemptingn to write to a read-only item
      */
     public function offsetSet($key, $value)
     {
@@ -206,7 +204,7 @@ class NodeList implements Iterator, Countable, ArrayAccess
      * ArrayAccess: unset offset
      *
      * @param  mixed $key
-     * @throws Exception\BadMethodCallException when attempting to unset a read-only item
+     * @throws Exception\BadMethodCallException when attemptingn to unset a read-only item
      */
     public function offsetUnset($key)
     {
