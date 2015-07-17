@@ -206,12 +206,13 @@ class Query
      * Perform a CSS selector query
      *
      * @param  string $query
+     * @param  DOMNode $contextNode
      * @return NodeList
      */
-    public function execute($query)
+    public function execute($query, DOMNode $contextNode = null)
     {
         $xpathQuery = Document\Query::cssToXpath($query);
-        return $this->queryXpath($xpathQuery, $query);
+        return $this->queryXpath($xpathQuery, $query, $contextNode);
     }
 
     /**
@@ -219,10 +220,11 @@ class Query
      *
      * @param  string|array $xpathQuery
      * @param  string|null  $query      CSS selector query
+     * @param  DOMNode $contextNode $contextNode
      * @throws Exception\RuntimeException
      * @return NodeList
      */
-    public function queryXpath($xpathQuery, $query = null)
+    public function queryXpath($xpathQuery, $query = null, DOMNode $contextNode = null)
     {
         if (null === ($document = $this->getDocument())) {
             throw new Exception\RuntimeException('Cannot query; no document registered');
@@ -266,8 +268,8 @@ class Query
             throw new Exception\RuntimeException(sprintf('Error parsing document (type == %s)', $type));
         }
 
-        $nodeList   = $this->getNodeList($domDoc, $xpathQuery);
-        return new NodeList($query, $xpathQuery, $domDoc, $nodeList);
+        $nodeList   = $this->getNodeList($domDoc, $xpathQuery, $contextNode);
+        return new NodeList($query, $xpathQuery, $domDoc, $nodeList, $contextNode);
     }
 
     /**
@@ -297,10 +299,11 @@ class Query
      *
      * @param  DOMDocument $document
      * @param  string|array $xpathQuery
+     * @param  DOMNode $contextNode
      * @return \DOMNodeList
      * @throws \ErrorException If query cannot be executed
      */
-    protected function getNodeList($document, $xpathQuery)
+    protected function getNodeList($document, $xpathQuery, DOMNode $contextNode = null)
     {
         $xpath      = new DOMXPath($document);
         foreach ($this->xpathNamespaces as $prefix => $namespaceUri) {
@@ -314,7 +317,7 @@ class Query
         }
         $xpathQuery = (string) $xpathQuery;
 
-        $nodeList = $xpath->queryWithErrorException($xpathQuery);
+        $nodeList = $xpath->queryWithErrorException($xpathQuery, $contextNode);
         return $nodeList;
     }
 }

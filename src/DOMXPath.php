@@ -27,15 +27,20 @@ class DOMXPath extends \DOMXPath
      * raising an error
      *
      * @param string $expression The XPath expression to evaluate.
+     * @param \DOMNode $contextNode
      * @return \DOMNodeList
      * @throws ErrorException
      */
-    public function queryWithErrorException($expression)
+    public function queryWithErrorException($expression, \DOMNode $contextNode = null)
     {
         $this->errors = [null];
 
+        if ($contextNode === null) {
+            $contextNode = $this->document->documentElement;
+        }
+
         set_error_handler([$this, 'addError'], \E_WARNING);
-        $nodeList = $this->query($expression);
+        $nodeList = $this->query($expression, $contextNode);
         restore_error_handler();
 
         $exception = array_pop($this->errors);
