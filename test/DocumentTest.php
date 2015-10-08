@@ -13,9 +13,7 @@ use Zend\Dom\Document;
 use Zend\Dom\Exception\ExceptionInterface as DOMException;
 
 /**
- * Test class for Zend\Dom\Document.
- *
- * @group      Zend_Dom
+ * @covers Zend\Dom\Document
  */
 class DocumentTest extends \PHPUnit_Framework_TestCase
 {

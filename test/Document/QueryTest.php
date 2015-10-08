@@ -12,9 +12,7 @@ namespace ZendTest\Dom\Document;
 use Zend\Dom\Document\Query;
 
 /**
- * Test class for Zend\Dom\Document\Query.
- *
- * @group      Zend_Dom
+ * @covers Zend\Dom\Document\Query
  */
 class QueryTest extends \PHPUnit_Framework_TestCase
 {

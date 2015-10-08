@@ -7,12 +7,12 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace ZendTest\Dom;
+namespace ZendTest\Dom\Document;
 
 use Zend\Dom\Document\NodeList;
 
 /**
- * @group      Zend_Dom
+ * @covers Zend\Dom\Document\NodeList
  */
 class NodeListTest extends \PHPUnit_Framework_TestCase
 {
