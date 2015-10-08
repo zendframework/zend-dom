@@ -9,8 +9,12 @@
 
 namespace ZendTest\Dom;
 
+use DOMDocument;
+use DOMNode;
 use Zend\Dom\Document;
+use Zend\Dom\Exception\BadMethodCallException;
 use Zend\Dom\Exception\ExceptionInterface as DOMException;
+use Zend\Dom\Exception\RuntimeException;
 
 /**
  * @covers Zend\Dom\Document
@@ -70,7 +74,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testDomDocShouldRaiseExceptionByDefault()
     {
-        $this->setExpectedException('\Zend\Dom\Exception\RuntimeException', 'no document');
+        $this->setExpectedException(RuntimeException::class, 'no document');
         $this->document->getDomDocument();
     }
 
@@ -110,21 +114,19 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testQueryingWithoutRegisteringDocumentShouldThrowException()
     {
-        $this->setExpectedException('\Zend\Dom\Exception\RuntimeException', 'no document');
-        $result = Document\Query::execute('.foo', $this->document, Document\Query::TYPE_CSS);
+        $this->setExpectedException(RuntimeException::class, 'no document');
+        Document\Query::execute('.foo', $this->document, Document\Query::TYPE_CSS);
     }
 
     public function testQueryingInvalidDocumentShouldThrowException()
     {
         set_error_handler([$this, 'handleError']);
         $this->document = new Document('some bogus string', Document::DOC_XML);
+        $this->setExpectedException(DOMException::class, 'Error parsing');
         try {
-            $result = Document\Query::execute('.foo', $this->document, Document\Query::TYPE_CSS);
+            Document\Query::execute('.foo', $this->document, Document\Query::TYPE_CSS);
+        } finally {
             restore_error_handler();
-            $this->fail('Querying invalid document should throw exception');
-        } catch (DOMException $e) {
-            restore_error_handler();
-            $this->assertContains('Error parsing', $e->getMessage());
         }
     }
 
@@ -132,20 +134,20 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     {
         $html  = $this->getHtml();
         $document = new Document($html);
-        $this->assertInstanceOf('DOMDocument', $document->getDomDocument());
+        $this->assertInstanceOf(DOMDocument::class, $document->getDomDocument());
     }
 
     public function testgetDomMethodShouldReturnDomDocumentWithStringDocumentSetFromMethod()
     {
         $this->loadHtml();
-        $this->assertInstanceOf('DOMDocument', $this->document->getDomDocument());
+        $this->assertInstanceOf(DOMDocument::class, $this->document->getDomDocument());
     }
 
     public function testQueryShouldReturnResultObject()
     {
         $this->loadHtml();
         $result = Document\Query::execute('.foo', $this->document, Document\Query::TYPE_CSS);
-        $this->assertInstanceOf('Zend\Dom\Document\NodeList', $result);
+        $this->assertInstanceOf(Document\NodeList::class, $result);
     }
 
     public function testResultShouldIndicateNumberOfFoundNodes()
@@ -160,9 +162,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->loadHtml();
         $result = Document\Query::execute('.foo', $this->document, Document\Query::TYPE_CSS);
         $this->assertEquals(3, count($result));
-        foreach ($result as $node) {
-            $this->assertInstanceOf('DOMNode', $node, var_export($result, true));
-        }
+        $this->assertContainsOnlyInstancesOf(DOMNode::class, $result, var_export($result, true));
     }
 
     public function testQueryShouldFindNodesWithMultipleClasses()
@@ -310,8 +310,8 @@ HTML;
     {
         $this->document = new Document($this->getHtml(), null, 'utf-8');
         $result = Document\Query::execute('.foo', $this->document, Document\Query::TYPE_CSS);
-        $this->assertInstanceof('\\Zend\\Dom\\Document\\NodeList', $result);
-        $this->assertInstanceof('\\DOMDocument', $this->document->getDomDocument());
+        $this->assertInstanceof(Document\NodeList::class, $result);
+        $this->assertInstanceof(DOMDocument::class, $this->document->getDomDocument());
         $this->assertEquals('utf-8', $this->document->getEncoding());
     }
 
@@ -366,8 +366,8 @@ XML;
 </results>
 XML;
         $this->document = new Document($xml);
-        $this->setExpectedException("\Zend\Dom\Exception\RuntimeException");
-        $result = Document\Query::execute('/', $this->document);
+        $this->setExpectedException(RuntimeException::class);
+        Document\Query::execute('/', $this->document);
     }
 
     public function testOffsetExists()
@@ -389,28 +389,23 @@ XML;
         $this->assertEquals('login', $result[2]->getAttribute('id'));
     }
 
-    /**
-     * @expectedException Zend\Dom\Exception\BadMethodCallException
-     */
     public function testOffsetSet()
     {
         $this->loadHtml();
         $result = Document\Query::execute('input', $this->document, Document\Query::TYPE_CSS);
         $this->assertEquals(3, $result->count());
 
+        $this->setExpectedException(BadMethodCallException::class);
         $result[0] = '<foobar />';
     }
 
-
-    /**
-     * @expectedException Zend\Dom\Exception\BadMethodCallException
-     */
     public function testOffsetUnset()
     {
         $this->loadHtml();
         $result = Document\Query::execute('input', $this->document, Document\Query::TYPE_CSS);
         $this->assertEquals(3, $result->count());
 
+        $this->setExpectedException(BadMethodCallException::class);
         unset($result[2]);
     }
 }
