@@ -60,6 +60,9 @@ class Document
      */
     protected $xpathPhpFunctions;
 
+    /** @var null|string */
+    protected $encoding;
+
     /**
      * Constructor
      *
