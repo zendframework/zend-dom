@@ -9,6 +9,7 @@
 
 namespace ZendTest\Dom\Document;
 
+use DOMDocument;
 use Zend\Dom\Document\NodeList;
 
 /**
@@ -21,7 +22,7 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
      */
     public function testEmptyResultDoesNotReturnIteratorValidTrue()
     {
-        $dom = new \DOMDocument();
+        $dom = new DOMDocument();
         $emptyNodeList = $dom->getElementsByTagName('a');
         $result = new NodeList($emptyNodeList);
 
