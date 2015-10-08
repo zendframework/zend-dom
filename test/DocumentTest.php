@@ -81,7 +81,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     public function testDocShouldBeNullByEmptyStringConstructor()
     {
         $emptyStr = '';
-        $document = new Document($emptyStr);
+        $this->document = new Document($emptyStr);
         $this->assertNull($this->document->getStringDocument());
     }
 
