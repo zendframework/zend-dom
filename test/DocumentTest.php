@@ -17,8 +17,10 @@ use Zend\Dom\Exception\ExceptionInterface as DOMException;
  */
 class DocumentTest extends \PHPUnit_Framework_TestCase
 {
-    public $html;
-    public $document;
+    /** @var null|string */
+    protected $html;
+    /** @var Document */
+    protected $document;
 
     /**
      * Sets up the fixture, for example, open a network connection.
@@ -251,7 +253,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
      */
     public function testCssSelectorShouldFindNodesWhenMatchingMultipleAttributes()
     {
-        $html = <<<EOF
+        $html = <<<HTML
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
@@ -263,7 +265,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
   </form>
 </body>
 </html>
-EOF;
+HTML;
 
         $this->document = new Document($html);
         $result = Document\Query::execute('input[type="hidden"][value="1"]', $this->document, Document\Query::TYPE_CSS);
@@ -318,13 +320,13 @@ EOF;
      */
     public function testXhtmlDocumentWithXmlDeclaration()
     {
-        $xhtmlWithXmlDecl = <<<EOB
+        $xhtmlWithXmlDecl = <<<XML
 <?xml version="1.0" encoding="UTF-8" ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head><title /></head>
     <body><p>Test paragraph.</p></body>
 </html>
-EOB;
+XML;
         $this->document = new Document($xhtmlWithXmlDecl, null, 'utf-8');
         $result = Document\Query::execute('//p', $this->document, Document\Query::TYPE_CSS);
         $this->assertEquals(1, $result->count());
@@ -335,7 +337,7 @@ EOB;
      */
     public function testXhtmlDocumentWithXmlAndDoctypeDeclaration()
     {
-        $xhtmlWithXmlDecl = <<<EOB
+        $xhtmlWithXmlDecl = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html
      PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -348,7 +350,7 @@ EOB;
     <p>Moved to <a href="http://example.org/">example.org</a>.</p>
   </body>
 </html>
-EOB;
+XML;
         $this->document = new Document($xhtmlWithXmlDecl, null, 'utf-8');
         $result = Document\Query::execute('//p', $this->document, Document\Query::TYPE_CSS);
         $this->assertEquals(1, $result->count());
