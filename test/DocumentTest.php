@@ -10,9 +10,7 @@
 namespace ZendTest\Dom;
 
 use DOMDocument;
-use DOMNode;
 use Zend\Dom\Document;
-use Zend\Dom\Exception\BadMethodCallException;
 use Zend\Dom\Exception\ExceptionInterface as DOMException;
 use Zend\Dom\Exception\RuntimeException;
 
@@ -155,14 +153,6 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->loadHtml();
         $result = Document\Query::execute('.foo', $this->document, Document\Query::TYPE_CSS);
         $this->assertEquals(3, count($result));
-    }
-
-    public function testResultShouldAllowIteratingOverFoundNodes()
-    {
-        $this->loadHtml();
-        $result = Document\Query::execute('.foo', $this->document, Document\Query::TYPE_CSS);
-        $this->assertEquals(3, count($result));
-        $this->assertContainsOnlyInstancesOf(DOMNode::class, $result, var_export($result, true));
     }
 
     public function testQueryShouldFindNodesWithMultipleClasses()
@@ -368,44 +358,5 @@ XML;
         $this->document = new Document($xml);
         $this->setExpectedException(RuntimeException::class);
         Document\Query::execute('/', $this->document);
-    }
-
-    public function testOffsetExists()
-    {
-        $this->loadHtml();
-        $result = Document\Query::execute('input', $this->document, Document\Query::TYPE_CSS);
-
-        $this->assertEquals(3, $result->count());
-        $this->assertFalse($result->offsetExists(3));
-        $this->assertTrue($result->offsetExists(2));
-    }
-
-    public function testOffsetGet()
-    {
-        $this->loadHtml();
-        $result = Document\Query::execute('input', $this->document, Document\Query::TYPE_CSS);
-
-        $this->assertEquals(3, $result->count());
-        $this->assertEquals('login', $result[2]->getAttribute('id'));
-    }
-
-    public function testOffsetSet()
-    {
-        $this->loadHtml();
-        $result = Document\Query::execute('input', $this->document, Document\Query::TYPE_CSS);
-        $this->assertEquals(3, $result->count());
-
-        $this->setExpectedException(BadMethodCallException::class);
-        $result[0] = '<foobar />';
-    }
-
-    public function testOffsetUnset()
-    {
-        $this->loadHtml();
-        $result = Document\Query::execute('input', $this->document, Document\Query::TYPE_CSS);
-        $this->assertEquals(3, $result->count());
-
-        $this->setExpectedException(BadMethodCallException::class);
-        unset($result[2]);
     }
 }
