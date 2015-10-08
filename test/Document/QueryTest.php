@@ -16,11 +16,6 @@ use Zend\Dom\Document\Query;
  */
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
-    public function testTransformShouldBeCalledStatically()
-    {
-        Query::cssToXpath('');
-    }
-
     public function testTransformShouldReturnStringByDefault()
     {
         $test = Query::cssToXpath('');
