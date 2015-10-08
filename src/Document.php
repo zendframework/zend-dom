@@ -195,7 +195,7 @@ class Document
     {
         $this->encoding = $encoding;
 
-        return $this->encoding;
+        return $this;
     }
 
     /**
