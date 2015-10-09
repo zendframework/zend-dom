@@ -16,6 +16,7 @@ use Zend\Dom\Exception\RuntimeException;
 
 /**
  * @covers Zend\Dom\Document
+ * @covers Zend\Dom\Document\Query::execute
  */
 class DocumentTest extends \PHPUnit_Framework_TestCase
 {
