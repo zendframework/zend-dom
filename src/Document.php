@@ -167,6 +167,7 @@ class Document
      *
      * @param  DOMDocument $domDocument
      * @return self
+     * @deprecated
      */
     protected function setDomDocument(DOMDocument $domDocument)
     {
