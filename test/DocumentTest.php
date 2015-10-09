@@ -128,14 +128,14 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testgetDomMethodShouldReturnDomDocumentWithStringDocumentInConstructor()
+    public function testGetDomMethodShouldReturnDomDocumentWithStringDocumentInConstructor()
     {
         $html  = $this->getHtml();
         $document = new Document($html);
         $this->assertInstanceOf(DOMDocument::class, $document->getDomDocument());
     }
 
-    public function testgetDomMethodShouldReturnDomDocumentWithStringDocumentSetFromMethod()
+    public function testGetDomMethodShouldReturnDomDocumentWithStringDocumentSetFromMethod()
     {
         $this->loadHtml();
         $this->assertInstanceOf(DOMDocument::class, $this->document->getDomDocument());

@@ -134,7 +134,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     /**
      * @group ZF-8006
      */
-    public function testShouldAllowWhitespaceInDescendentSelectorExpressions()
+    public function testShouldAllowWhitespaceInDescendantSelectorExpressions()
     {
         $test = Query::cssToXpath('child > leaf');
         $this->assertEquals("//child/leaf", $test);
@@ -152,7 +152,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     /**
      * @group ZF-9764
      */
-    public function testIdSelectorWithLeadingAsterix()
+    public function testIdSelectorWithLeadingAsterisk()
     {
         $test = Query::cssToXpath('*#id');
         $this->assertEquals("//*[@id='id']", $test);
