@@ -9,18 +9,21 @@
 
 namespace ZendTest\Dom;
 
+use DOMDocument;
 use Zend\Dom\Document;
 use Zend\Dom\Exception\ExceptionInterface as DOMException;
+use Zend\Dom\Exception\RuntimeException;
 
 /**
- * Test class for Zend\Dom\Document.
- *
- * @group      Zend_Dom
+ * @covers Zend\Dom\Document
+ * @covers Zend\Dom\Document\Query::execute
  */
 class DocumentTest extends \PHPUnit_Framework_TestCase
 {
-    public $html;
-    public $document;
+    /** @var null|string */
+    protected $html;
+    /** @var Document */
+    protected $document;
 
     /**
      * Sets up the fixture, for example, open a network connection.
@@ -70,14 +73,14 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testDomDocShouldRaiseExceptionByDefault()
     {
-        $this->setExpectedException('\Zend\Dom\Exception\RuntimeException', 'no document');
+        $this->setExpectedException(RuntimeException::class, 'no document');
         $this->document->getDomDocument();
     }
 
     public function testDocShouldBeNullByEmptyStringConstructor()
     {
         $emptyStr = '';
-        $document = new Document($emptyStr);
+        $this->document = new Document($emptyStr);
         $this->assertNull($this->document->getStringDocument());
     }
 
@@ -110,42 +113,40 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testQueryingWithoutRegisteringDocumentShouldThrowException()
     {
-        $this->setExpectedException('\Zend\Dom\Exception\RuntimeException', 'no document');
-        $result = Document\Query::execute('.foo', $this->document, Document\Query::TYPE_CSS);
+        $this->setExpectedException(RuntimeException::class, 'no document');
+        Document\Query::execute('.foo', $this->document, Document\Query::TYPE_CSS);
     }
 
     public function testQueryingInvalidDocumentShouldThrowException()
     {
         set_error_handler([$this, 'handleError']);
         $this->document = new Document('some bogus string', Document::DOC_XML);
+        $this->setExpectedException(DOMException::class, 'Error parsing');
         try {
-            $result = Document\Query::execute('.foo', $this->document, Document\Query::TYPE_CSS);
+            Document\Query::execute('.foo', $this->document, Document\Query::TYPE_CSS);
+        } finally {
             restore_error_handler();
-            $this->fail('Querying invalid document should throw exception');
-        } catch (DOMException $e) {
-            restore_error_handler();
-            $this->assertContains('Error parsing', $e->getMessage());
         }
     }
 
-    public function testgetDomMethodShouldReturnDomDocumentWithStringDocumentInConstructor()
+    public function testGetDomMethodShouldReturnDomDocumentWithStringDocumentInConstructor()
     {
         $html  = $this->getHtml();
         $document = new Document($html);
-        $this->assertInstanceOf('DOMDocument', $document->getDomDocument());
+        $this->assertInstanceOf(DOMDocument::class, $document->getDomDocument());
     }
 
-    public function testgetDomMethodShouldReturnDomDocumentWithStringDocumentSetFromMethod()
+    public function testGetDomMethodShouldReturnDomDocumentWithStringDocumentSetFromMethod()
     {
         $this->loadHtml();
-        $this->assertInstanceOf('DOMDocument', $this->document->getDomDocument());
+        $this->assertInstanceOf(DOMDocument::class, $this->document->getDomDocument());
     }
 
     public function testQueryShouldReturnResultObject()
     {
         $this->loadHtml();
         $result = Document\Query::execute('.foo', $this->document, Document\Query::TYPE_CSS);
-        $this->assertInstanceOf('Zend\Dom\Document\NodeList', $result);
+        $this->assertInstanceOf(Document\NodeList::class, $result);
     }
 
     public function testResultShouldIndicateNumberOfFoundNodes()
@@ -153,16 +154,6 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->loadHtml();
         $result = Document\Query::execute('.foo', $this->document, Document\Query::TYPE_CSS);
         $this->assertEquals(3, count($result));
-    }
-
-    public function testResultShouldAllowIteratingOverFoundNodes()
-    {
-        $this->loadHtml();
-        $result = Document\Query::execute('.foo', $this->document, Document\Query::TYPE_CSS);
-        $this->assertEquals(3, count($result));
-        foreach ($result as $node) {
-            $this->assertInstanceOf('DOMNode', $node, var_export($result, true));
-        }
     }
 
     public function testQueryShouldFindNodesWithMultipleClasses()
@@ -253,7 +244,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
      */
     public function testCssSelectorShouldFindNodesWhenMatchingMultipleAttributes()
     {
-        $html = <<<EOF
+        $html = <<<HTML
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
@@ -265,7 +256,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
   </form>
 </body>
 </html>
-EOF;
+HTML;
 
         $this->document = new Document($html);
         $result = Document\Query::execute('input[type="hidden"][value="1"]', $this->document, Document\Query::TYPE_CSS);
@@ -310,8 +301,8 @@ EOF;
     {
         $this->document = new Document($this->getHtml(), null, 'utf-8');
         $result = Document\Query::execute('.foo', $this->document, Document\Query::TYPE_CSS);
-        $this->assertInstanceof('\\Zend\\Dom\\Document\\NodeList', $result);
-        $this->assertInstanceof('\\DOMDocument', $this->document->getDomDocument());
+        $this->assertInstanceof(Document\NodeList::class, $result);
+        $this->assertInstanceof(DOMDocument::class, $this->document->getDomDocument());
         $this->assertEquals('utf-8', $this->document->getEncoding());
     }
 
@@ -320,13 +311,13 @@ EOF;
      */
     public function testXhtmlDocumentWithXmlDeclaration()
     {
-        $xhtmlWithXmlDecl = <<<EOB
+        $xhtmlWithXmlDecl = <<<XML
 <?xml version="1.0" encoding="UTF-8" ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head><title /></head>
     <body><p>Test paragraph.</p></body>
 </html>
-EOB;
+XML;
         $this->document = new Document($xhtmlWithXmlDecl, null, 'utf-8');
         $result = Document\Query::execute('//p', $this->document, Document\Query::TYPE_CSS);
         $this->assertEquals(1, $result->count());
@@ -337,7 +328,7 @@ EOB;
      */
     public function testXhtmlDocumentWithXmlAndDoctypeDeclaration()
     {
-        $xhtmlWithXmlDecl = <<<EOB
+        $xhtmlWithXmlDecl = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html
      PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -350,7 +341,7 @@ EOB;
     <p>Moved to <a href="http://example.org/">example.org</a>.</p>
   </body>
 </html>
-EOB;
+XML;
         $this->document = new Document($xhtmlWithXmlDecl, null, 'utf-8');
         $result = Document\Query::execute('//p', $this->document, Document\Query::TYPE_CSS);
         $this->assertEquals(1, $result->count());
@@ -366,51 +357,7 @@ EOB;
 </results>
 XML;
         $this->document = new Document($xml);
-        $this->setExpectedException("\Zend\Dom\Exception\RuntimeException");
-        $result = Document\Query::execute('/', $this->document);
-    }
-
-    public function testOffsetExists()
-    {
-        $this->loadHtml();
-        $result = Document\Query::execute('input', $this->document, Document\Query::TYPE_CSS);
-
-        $this->assertEquals(3, $result->count());
-        $this->assertFalse($result->offsetExists(3));
-        $this->assertTrue($result->offsetExists(2));
-    }
-
-    public function testOffsetGet()
-    {
-        $this->loadHtml();
-        $result = Document\Query::execute('input', $this->document, Document\Query::TYPE_CSS);
-
-        $this->assertEquals(3, $result->count());
-        $this->assertEquals('login', $result[2]->getAttribute('id'));
-    }
-
-    /**
-     * @expectedException Zend\Dom\Exception\BadMethodCallException
-     */
-    public function testOffsetSet()
-    {
-        $this->loadHtml();
-        $result = Document\Query::execute('input', $this->document, Document\Query::TYPE_CSS);
-        $this->assertEquals(3, $result->count());
-
-        $result[0] = '<foobar />';
-    }
-
-
-    /**
-     * @expectedException Zend\Dom\Exception\BadMethodCallException
-     */
-    public function testOffsetUnset()
-    {
-        $this->loadHtml();
-        $result = Document\Query::execute('input', $this->document, Document\Query::TYPE_CSS);
-        $this->assertEquals(3, $result->count());
-
-        unset($result[2]);
+        $this->setExpectedException(RuntimeException::class);
+        Document\Query::execute('/', $this->document);
     }
 }
