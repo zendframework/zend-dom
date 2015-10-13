@@ -60,6 +60,9 @@ class Document
      */
     protected $xpathPhpFunctions;
 
+    /** @var null|string */
+    protected $encoding;
+
     /**
      * Constructor
      *
@@ -164,6 +167,7 @@ class Document
      *
      * @param  DOMDocument $domDocument
      * @return self
+     * @deprecated
      */
     protected function setDomDocument(DOMDocument $domDocument)
     {
@@ -192,7 +196,7 @@ class Document
     {
         $this->encoding = $encoding;
 
-        return $this->encoding;
+        return $this;
     }
 
     /**

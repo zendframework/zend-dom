@@ -34,7 +34,7 @@ class DOMXPath extends \DOMXPath
     {
         $this->errors = [null];
 
-        set_error_handler([$this, 'addError'], \E_WARNING);
+        set_error_handler([$this, 'addError'], E_WARNING);
         $nodeList = $this->query($expression);
         restore_error_handler();
 

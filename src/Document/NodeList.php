@@ -61,11 +61,7 @@ class NodeList implements Iterator, Countable, ArrayAccess
      */
     public function valid()
     {
-        if (in_array($this->position, range(0, $this->list->length - 1)) && $this->list->length > 0) {
-            return true;
-        }
-
-        return false;
+        return $this->offsetExists($this->position);
     }
 
     /**
@@ -118,10 +114,8 @@ class NodeList implements Iterator, Countable, ArrayAccess
      */
     public function offsetExists($key)
     {
-        if (in_array($key, range(0, $this->list->length - 1)) && $this->list->length > 0) {
-            return true;
-        }
-        return false;
+        // DOMNodeList return `null` if item not exists.
+        return (null !== $this->list->item($key));
     }
 
     /**
