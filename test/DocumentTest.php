@@ -360,4 +360,13 @@ XML;
         $this->setExpectedException(RuntimeException::class);
         Document\Query::execute('/', $this->document);
     }
+
+    public function testContextNode()
+    {
+        $this->loadHtml();
+        $results = Document\Query::execute('//div[@id="subnav"]', $this->document, Document\Query::TYPE_XPATH);
+        $contextNode = $results[0];
+        $results = Document\Query::execute('.//li', $this->document, Document\Query::TYPE_XPATH, $contextNode);
+        $this->assertSame('Item 1', $results[0]->nodeValue);
+    }
 }

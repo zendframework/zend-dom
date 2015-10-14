@@ -30,9 +30,10 @@ class Query
      * @param  string    $expression CSS selector or XPath query
      * @param  Document  $document   Document to query
      * @param  string    $type       The type of $expression
+     * @param  \DOMNode  $contextNode
      * @return NodeList
      */
-    public static function execute($expression, Document $document, $type = self::TYPE_XPATH)
+    public static function execute($expression, Document $document, $type = self::TYPE_XPATH, \DOMNode $contextNode = null)
     {
         // Expression check
         if ($type === static::TYPE_CSS) {
@@ -50,7 +51,7 @@ class Query
             ($xpathPhpfunctions === true) ? $xpath->registerPHPFunctions() : $xpath->registerPHPFunctions($xpathPhpfunctions);
         }
 
-        $nodeList = $xpath->queryWithErrorException($expression);
+        $nodeList = $xpath->queryWithErrorException($expression, $contextNode);
         return new NodeList($nodeList);
     }
 
