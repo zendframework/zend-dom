@@ -2,13 +2,11 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.6.0 - TBD
+## 2.6.1 - TBD
 
 ### Added
 
-- [#2](https://github.com/zendframework/zend-dom/pull/4) ads context node
-  support for DOMXPath->query that supports querying in the context of a
-  specific node.
+- Nothing.
 
 ### Deprecated
 
@@ -22,11 +20,13 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Nothing.
 
-## 2.5.2 - TBD
+## 2.6.0 - 2015-10-13
 
 ### Added
 
-- Nothing.
+- [#2](https://github.com/zendframework/zend-dom/pull/4) ads context node
+  support for DOMXPath->query that supports querying in the context of a
+  specific node.
 
 ### Deprecated
 
