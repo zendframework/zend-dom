@@ -45,7 +45,7 @@ beneath a 'span' element, which is in turn a descendent of arbitrary depth benea
 class of 'foo', that is an descendent of arbitrary depth beneath a 'div' element. For example, it
 would match the link to the word 'One' in the listing below:
 
-    ``` sourceCode
+    ```php
     <div>
     <table>
         <tr>
@@ -71,7 +71,7 @@ internally as a [DOMDocument](http://php.net/domdocument) and
 [DOMNodeList](http://php.net/domnodelist). As an example, consider the following call, that selects
 against the *HTML* above:
 
-``` sourceCode
+```php
 use Zend\Dom\Query;
 
 $dom = new Query($html);
