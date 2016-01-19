@@ -1,0 +1,8 @@
+{
+    "title": "Zend\\Dom",
+    "target": "html/",
+    "content": [
+        "book/zend.dom.intro.md",
+        "book/zend.dom.query.md"
+    ]
+}
