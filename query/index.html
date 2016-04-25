@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    <title>Querying HTML and XML - zend-dom</title>
+
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/2.018/css/hack.min.css">
+    <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic,700&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="../css/base.css" rel="stylesheet">
+    <link href="../css/zf.css" rel="stylesheet">
+    <link href="../css/prism-zf.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <span class="navbar-brand">
+              <a class="logo-link" href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Zend Framework"><img src="../img/zf-logo-mark.png" height="28" alt="Zend Framework" /></a>
+              <a href="..">zend-dom</a>
+            </span>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="..">Home</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../intro/">Intro</a>
+                    </li>
+                
+                
+                
+                    <li class="active">
+                        <a href="./">Querying HTML and XML</a>
+                    </li>
+                
+                
+                </ul>
+            
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" class="component-toggle" data-toggle="tooltip" data-placement="bottom" title="Show component list">
+                        <i class="fa fa-book"></i> Components
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                
+                    <li>
+                        <a href="https://github.com/zendframework/zend-dom">
+                            
+                                <i class="fa fa-github"></i>
+                            
+                            GitHub
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <!-- content:begin -->
+    <div class="container">
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#querying-html-and-xml-documents">Querying HTML and XML Documents</a></li>
+        
+            <li><a href="#theory-of-operation">Theory of Operation</a></li>
+        
+            <li><a href="#methods-available">Methods Available</a></li>
+        
+    
+    </ul>
+
+    
+    <ul class="pager hidden-print">
+      <li class="previous">
+        <a rel="prev" href="../intro/"><i class="fa fa-arrow-left"></i> Previous</a>
+      </li>
+      <li class="next disabled ">
+        <a rel="next" >Next <i class="fa fa-arrow-right"></i></a>
+      </li>
+    </ul>
+    
+</div></div>
+        <div class="col-md-9" role="main">
+
+<ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
+  <li><a href="..">Docs</a> &raquo;</li>
+  
+    
+  
+  <li class="active">Querying HTML and XML</li>
+</ol>
+
+<h1 id="querying-html-and-xml-documents">Querying HTML and XML Documents</h1>
+<p><code>Zend\Dom\Query</code> provides mechanisms for querying XML and HTML documents
+utilizing either XPath or CSS selectors. It was developed to aid with functional
+testing of MVC applications, but could also be used for development of screen
+scrapers.</p>
+<p>CSS selector notation is provided as a simpler and more familiar notation for
+web developers to utilize when querying documents with XML structures. The
+notation should be familiar to anybody who has developed Cascading Style Sheets
+or who utilizes javascript toolkits that provide functionality for selecting
+nodes utilizing CSS selectors.  <a href="http://prototypejs.org/api/utility/dollar-dollar">Prototype's $$()</a>,
+<a href="http://api.dojotoolkit.org/jsdoc/dojo/HEAD/dojo.query">Dojo's dojo.query</a>, and
+<a href="https://jquery.com">jQuery</a> were all inspirations for the component.</p>
+<h2 id="theory-of-operation">Theory of Operation</h2>
+<p>To use <code>Zend\Dom\Query</code>, you instantiate a <code>Zend\Dom\Query</code> object, optionally
+passing a document to query (a string). Once you have a document, you can use
+either the <code>execute()</code> or <code>queryXpath()</code> methods; each method will return a
+<code>Zend\Dom\NodeList</code> object with any matching nodes.</p>
+<p>The primary difference between <code>Zend\Dom\Query</code> and using
+<a href="http://php.net/domdocument">DOMDocument</a> + <a href="http://php.net/domxpath">DOMXPath</a>
+is the ability to select against CSS + selectors. You can utilize any of the
+following, in any combination:</p>
+<ul>
+<li><strong>element types</strong>: provide an element type to match: <code>div</code>, <code>a</code>, <code>span</code>, <code>h2</code>, etc.</li>
+<li><strong>style attributes</strong>: CSS style attributes to match: <code>.error</code>, <code>div.error</code>,
+  <code>label.required</code>, etc. If an element defines more than one style, this will
+  match as long as the named style is present anywhere in the style declaration.</li>
+<li><strong>id attributes</strong>: element ID attributes to match: <code>#content</code>, <code>div#nav</code>, etc.</li>
+<li><strong>arbitrary attributes</strong>: arbitrary element attributes to match. Three
+  different types of matching are provided:<ul>
+<li><strong>exact match</strong>: the attribute <em>exactly</em> matches the specified string.
+  <code>div[bar="baz"]</code> would match a <code>div</code> element with a <code>bar</code> attribute that
+  exactly matches the value <code>baz</code>.</li>
+<li><strong>word match</strong>: the attribute contains a <em>word</em> matching the string.
+  <code>div[bar~="baz"]</code> would match a <code>div</code> element with a <code>bar</code> attribute that
+  contains the word <code>baz</code>. <code>&lt;div bar="foo baz"&gt;</code> would match, but
+  <code>&lt;div bar="foo bazbat"&gt;</code> would not.</li>
+<li><strong>substring match</strong>: the attribute contains the string specified, whether or
+  not it is a complete word. <code>div[bar*="baz"]</code> would match a <code>div</code> element
+  with a <code>bar</code> attribute that contains the string <code>baz</code> anywhere within it.</li>
+</ul>
+</li>
+<li><strong>direct descendents</strong>: utilize <code>&gt;</code> between selectors to denote direct
+  descendents. <code>div &gt; span</code> would select only <code>span</code> elements that are direct
+  descendents of a <code>div</code>. Can also be used with any of the selectors above.</li>
+<li>
+<p><strong>descendents</strong>: string together multiple selectors to indicate a hierarchy along which to search.
+  <code>div .foo span #one</code> would select an element of id <code>one</code> that is a descendent
+  of arbitrary depth beneath a <code>span</code> element, which is in turn a descendent of
+  arbitrary depth beneath an element with a class of <code>foo</code>, that is an
+  descendent of arbitrary depth beneath a <code>div</code> element. For example, it would
+  match the link to the word 'One' in the listing below:</p>
+<pre class="codehilite"><code class="language-html">&lt;div&gt;
+&lt;table&gt;
+    &lt;tr&gt;
+        &lt;td class=&quot;foo&quot;&gt;
+            &lt;div&gt;
+                Lorem ipsum &lt;span class=&quot;bar&quot;&gt;
+                    &lt;a href=&quot;/foo/bar&quot; id=&quot;one&quot;&gt;One&lt;/a&gt;
+                    &lt;a href=&quot;/foo/baz&quot; id=&quot;two&quot;&gt;Two&lt;/a&gt;
+                    &lt;a href=&quot;/foo/bat&quot; id=&quot;three&quot;&gt;Three&lt;/a&gt;
+                    &lt;a href=&quot;/foo/bla&quot; id=&quot;four&quot;&gt;Four&lt;/a&gt;
+                &lt;/span&gt;
+            &lt;/div&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;</code></pre>
+
+
+</li>
+</ul>
+<p>Once you've performed your query, you can then work with the result object to
+determine information about the nodes, as well as to pull them and/or their
+content directly for examination and manipulation. <code>Zend\Dom\NodeList</code>
+implements <code>Countable</code> and <code>Iterator</code>, and stores the results internally as a
+<a href="http://php.net/domdocument">DOMDocument</a> and <a href="http://php.net/domnodelist">DOMNodeList</a>.</p>
+<p>As an example, consider the following call, that selects against the HTML above:</p>
+<pre class="codehilite"><code class="language-php">use Zend\Dom\Query;
+
+$dom = new Query($html);
+$results = $dom-&gt;execute('.foo .bar a');
+
+$count = count($results); // get number of matches: 4
+foreach ($results as $result) {
+    // $result is a DOMElement
+}</code></pre>
+
+
+<p><code>Zend\Dom\Query</code> also allows straight XPath queries utilizing the <code>queryXpath()</code>
+method; you can pass any valid XPath query to this method, and it will return a
+<code>Zend\Dom\NodeList</code> object.</p>
+<h2 id="methods-available">Methods Available</h2>
+<p>Below is a listing of methods available in the various classes exposed by
+zend-dom.</p>
+<h3 id="zend92dom92query">Zend\Dom\Query</h3>
+<p>The following methods are available to <code>Zend\Dom\Query</code>:</p>
+<ul>
+<li><code>setDocumentXml($document, $encoding = null)</code>: specify an XML string to query against.</li>
+<li><code>setDocumentXhtml($document, $encoding = null)</code>: specify an XHTML string to query against.</li>
+<li><code>setDocumentHtml($document, $encoding = null)</code>: specify an HTML string to query against.</li>
+<li><code>setDocument($document, $encoding = null)</code>: specify a string to query against;
+  <code>Zend\Dom\Query</code> will then attempt to autodetect the document type.</li>
+<li><code>setEncoding($encoding)</code>: specify an encoding string to use. This encoding
+  will be passed to <a href="http://php.net/domdocument.construct">DOMDocument's constructor</a>
+  if specified.</li>
+<li><code>getDocument()</code>: retrieve the original document string provided to the object.</li>
+<li><code>getDocumentType()</code>: retrieve the document type of the document provided to
+  the object; will be one of the <code>DOC_XML</code>, <code>DOC_XHTML</code>, or <code>DOC_HTML</code> class
+  constants.</li>
+<li><code>getEncoding()</code>: retrieves the specified encoding.</li>
+<li><code>execute($query)</code>: query the document using CSS selector notation.</li>
+<li><code>queryXpath($xPathQuery)</code>: query the document using XPath notation.</li>
+</ul>
+<h3 id="zend92dom92nodelist">Zend\Dom\NodeList</h3>
+<p>As mentioned previously, <code>Zend\Dom\NodeList</code> implements both <code>Iterator</code> and
+<code>Countable</code>, and as such can be used in a <code>foreach()</code> loop as well as with the
+<code>count()</code> function. Additionally, it exposes the following methods:</p>
+<ul>
+<li><code>getCssQuery()</code>: return the CSS selector query used to produce the result (if
+  any).</li>
+<li><code>getXpathQuery()</code>: return the XPath query used to produce the result.
+  Internally, <code>Zend\Dom\Query</code> converts CSS selector queries to XPath, so this
+  value will always be populated.</li>
+<li><code>getDocument()</code>: retrieve the DOMDocument the selection was made against.</li>
+</ul>
+
+<hr />
+
+
+<nav>
+  <ul class="pager hidden-print">
+    <li class="previous">
+      <a rel="prev" href="../intro/"><i class="fa fa-arrow-left"></i> Previous</a>
+    </li>
+    <li class="next disabled ">
+      <a rel="next" >Next <i class="fa fa-arrow-right"></i></a>
+    </li>
+  </ul>
+</nav>
+</div>
+        
+    </div>
+    <!-- content:end -->
+
+    <footer class="col-md-12 text-center">
+        <hr>
+        <p>
+        <small>Copyright (c) 2016 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a><br></small>
+        </p>
+        <p><small><a href="http://framework.zend.com">Learn more about Zend Framework</a></small></p>
+    </footer>
+
+    <script src="../js/jquery-1.10.2.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/prism-zf.js"></script>
+
+    <script>var base_url = '..';</script>
+    <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
+    <script src="../js/base.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="zf-components">
+  <div class="zf-components-grid">
+    <div class="zf-logo">
+      <a href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="http://framework.zend.com/images/logos/zf-logo-mark.png" alt="Zend Framework" width="250" /></a>
+    </div>
+
+    <div class="component-list"></div>
+
+    <p class="zf-components-rollup"><a href="#">Hide list</a></p>
+  </div>
+</div>
+
+    <script>
+  // Prepare the component list dropdown for display
+  $(function () {
+    var components = $(".zf-components"),
+        componentList = components.find(".component-list"),
+        sidebar = $(".bs-sidebar.affix"),
+        sidebarInitialPos = sidebar.css("position"),
+        hidden,
+        componentToggle = $(".component-toggle"),
+        navbar = $(".navbar-fixed-top"),
+        rollUpLink = $(".zf-components-rollup a");
+
+    // Initial setup on document load
+    components.insertBefore(navbar);
+    $(".zf-logo a").tooltip();
+    componentToggle.tooltip();
+    rollUpLink.attr({ href: "#", alt: "Hide component list" });
+
+    // Cast initial sidebar position value
+    if (undefined === sidebarInitialPos) {
+      sidebarInitialPos = "fixed";
+    }
+
+    // Setup onclick events to toggle list
+    componentToggle.click(toggleComponentList);
+    rollUpLink.click(toggleComponentList);
+
+    // Toggle the component list display
+    function toggleComponentList(event) {
+      event.preventDefault();
+
+      if (hidden === undefined) {
+        // Not loaded yet; load and display.
+        loadComponentList();
+        return;
+      }
+
+      if (hidden) {
+        // Hidden; display.
+        showComponentList();
+        return;
+      }
+
+      // Currently visible; hide
+      hideComponentList();
+    }
+
+    // Show the component list
+    function showComponentList() {
+      navbar.css({position: "relative"});
+      sidebar.css({position: "relative"});
+      components
+        .css({"margin-top": "-" + components.outerHeight() + "px"})
+        .show()
+        .animate({"margin-top": 0}, {
+          complete: function () {
+            componentToggle
+              .data("placement", "top")
+              .attr("data-original-title", "Hide component list");
+            hidden = false;
+          },
+          queue: false
+        });
+    }
+
+    // Hide the component list
+    function hideComponentList() {
+      components.animate({"margin-top": "-" + components.outerHeight() + "px"}, {
+        complete: function () {
+          navbar.css({position: "fixed"});
+          sidebar.css({position: sidebarInitialPos});
+          componentToggle
+            .data("placement", "bottom")
+            .attr("data-original-title", "Show component list");
+          components.hide();
+          hidden = true;
+        },
+        queue: false
+      });
+      sidebar.animate({ top: sidebarInitialTop + "px" }, { queue: false});
+    }
+
+    // Inject a component into the componet list DOM.
+    function injectComponent(index, component) {
+      componentList.append('<div class="component"><h4><a href="' + component.url + '">' + component.name + '</a></h4><p>' + component.description + '</p></div>');
+    }
+
+    // Parse the component list, build the DOM, and display it.
+    function parseComponentList(components) {
+      $.each(components, injectComponent);
+      showComponentList();
+    }
+
+    // Fetch the component list and display it.
+    function loadComponentList () {
+      $.ajax({
+        url: "//zendframework.github.io/zf-mkdoc-theme/scripts/zf-component-list.json",
+        dataType: "text json",
+        success: parseComponentList,
+        error: function (e) {
+          console.log("Error occurred with XHR call", e);
+        }
+      });
+    }
+  });
+</script>
+    </body>
+
+</html>
