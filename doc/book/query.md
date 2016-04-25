@@ -32,16 +32,16 @@ following, in any combination:
 - **id attributes**: element ID attributes to match: `#content`, `div#nav`, etc.
 - **arbitrary attributes**: arbitrary element attributes to match. Three
   different types of matching are provided:
-  - **exact match**: the attribute *exactly* matches the specified string.
-    `div[bar="baz"]` would match a `div` element with a `bar` attribute that
-    exactly matches the value `baz`.
-  - **word match**: the attribute contains a *word* matching the string.
-    `div[bar~="baz"]` would match a `div` element with a `bar` attribute that
-    contains the word `baz`. `<div bar="foo baz">` would match, but
-    `<div bar="foo bazbat">` would not.
-  - **substring match**: the attribute contains the string specified, whether or
-    not it is a complete word. `div[bar*="baz"]` would match a `div` element
-    with a `bar` attribute that contains the string `baz` anywhere within it.
+    - **exact match**: the attribute *exactly* matches the specified string.
+      `div[bar="baz"]` would match a `div` element with a `bar` attribute that
+      exactly matches the value `baz`.
+    - **word match**: the attribute contains a *word* matching the string.
+      `div[bar~="baz"]` would match a `div` element with a `bar` attribute that
+      contains the word `baz`. `<div bar="foo baz">` would match, but
+      `<div bar="foo bazbat">` would not.
+    - **substring match**: the attribute contains the string specified, whether or
+      not it is a complete word. `div[bar*="baz"]` would match a `div` element
+      with a `bar` attribute that contains the string `baz` anywhere within it.
 - **direct descendents**: utilize `>` between selectors to denote direct
   descendents. `div > span` would select only `span` elements that are direct
   descendents of a `div`. Can also be used with any of the selectors above.
