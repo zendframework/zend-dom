@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- Adds documentation and publishes it to https://zendframework.github.com/zend-dom/
 
 ### Deprecated
 
