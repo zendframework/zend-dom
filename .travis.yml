@@ -33,14 +33,10 @@ matrix:
         - DEPLOY_DOCS="$(if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then echo -n 'true' ; else echo -n 'false' ; fi)"
         - PATH="$HOME/.local/bin:$PATH"
     - php: 7
-    - php: hhvm 
+    - php: hhvm
   allow_failures:
     - php: 7
     - php: hhvm
-
-notifications:
-  irc: "irc.freenode.org#zftalk.dev"
-  email: false
 
 before_install:
   - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
@@ -61,3 +57,16 @@ after_success:
 
 after_script:
   - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/coveralls ; fi
+
+notifications:
+  email: false
+  irc:
+    channels:
+      - "irc.freenode.org#zftalk.dev"
+    on_success: change
+    on_failure: always
+  slack:
+    rooms:
+      - secure: "JQSqKSIEuHViwnj0PP1iRTInQU3Gf3F+1sVXR1g/fTVZlM3cr9iRZWFDQEmnu2874XjEdPSrJH6Ow87JXGfEI7VmJ+dvTmwkjtC16H6+7Aunn+s5g0ZU1ah6ol11g1zYpmwBorqfApqo4WJ0TBJH3np0D8iPPhevznrL8llSoG5VIH891KusnXMYAtR3H0WjHl225zRFQ5lvlWRdlQEZg51aATq2LEENmg2KVVX+qkouhCecFmtsVRQg9wOPm8LHvz8ttYxhJ67RtICBwLOfS/gjM6GrBx/kv0HJo+tASsSx1d68zUszoYKc1VukWfqcmSYnHSqAJ1X63jrMwK4moUnoCrvEf42UgNCEx1XMvUy6RJ2DDGY+9pZ97LI7AwM9ojtqoDHZG38FtWDv2iO6m+CxT5X8hb7k4qijDTZBiV3v+IjPwabuS1yZ9ylAijVWclhUOOjvYgB6MEZTEuaiK6VKWG8f4Plg5dXhNRXHr0Hio+emcwyTbmyhShKaWSkzhnfOqDZocVqa2dPe6loh+I02tPI9oIA0ZuyRtzAfkhMSQdWBYJJ5W/RGEan9fDWr/G5SllAsoMZJ0OY/oHbhMbPTTC0ODi8G2yJKEYuE5IaH8buvODuQX5meyda791pjA6z/FaRzkJ4bHkO2Lbe88ov0QQ39w8RP7HXreHGJQO8="
+    on_success: change
+    on_failure: always
