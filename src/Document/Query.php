@@ -33,8 +33,12 @@ class Query
      * @param  \DOMNode  $contextNode
      * @return NodeList
      */
-    public static function execute($expression, Document $document, $type = self::TYPE_XPATH, \DOMNode $contextNode = null)
-    {
+    public static function execute(
+        $expression,
+        Document $document,
+        $type = self::TYPE_XPATH,
+        \DOMNode $contextNode = null
+    ) {
         // Expression check
         if ($type === static::TYPE_CSS) {
             $expression = static::cssToXpath($expression);
@@ -48,7 +52,11 @@ class Query
 
         if ($xpathPhpfunctions = $document->getXpathPhpFunctions()) {
             $xpath->registerNamespace('php', 'http://php.net/xpath');
-            ($xpathPhpfunctions === true) ? $xpath->registerPHPFunctions() : $xpath->registerPHPFunctions($xpathPhpfunctions);
+            if ($xpathPhpfunctions === true) {
+                $xpath->registerPhpFunctions();
+            } else {
+                $xpath->registerPhpFunctions($xpathPhpfunctions);
+            }
         }
 
         $nodeList = $xpath->queryWithErrorException($expression, $contextNode);
@@ -109,6 +117,7 @@ class Query
         return implode('|', $paths);
     }
 
+    // @codingStandardsIgnoreStart
     /**
      * Tokenize CSS expressions to XPath
      *
@@ -117,6 +126,7 @@ class Query
      */
     protected static function _tokenize($expression)
     {
+        // @codingStandardsIgnoreEnd
         // Child selectors
         $expression = str_replace('>', '/', $expression);
 
