@@ -9,4 +9,4 @@ interface for querying DOM documents utilizing both XPath and CSS selectors.
 
 
 - File issues at https://github.com/zendframework/zend-dom/issues
-- Documentation is at http://framework.zend.com/manual/current/en/index.html#zend-dom
+- Documentation is at https://docs.zendframework.com/zend-dom
