@@ -170,6 +170,13 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, count($result));
     }
 
+    public function testQueryShouldFindNodesWithArbitraryAttributeSelectorsThatIncludeSpaces()
+    {
+        $this->loadHtml();
+        $result = Document\Query::execute('div[data-attr="foo bar baz"]', $this->document, Document\Query::TYPE_CSS);
+        $this->assertEquals(1, count($result));
+    }
+
     public function testQueryShouldFindNodesWithArbitraryAttributeSelectorsAsDiscreteWords()
     {
         $this->loadHtml();
