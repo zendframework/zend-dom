@@ -82,7 +82,7 @@ class Query
         $path = preg_replace_callback(
             '/\[\S+["\'](.+)["\']\]/',
             function ($matches) {
-                return str_replace($matches[1], preg_replace('/\s+/', '{--WHITESPACE--}', $matches[1]), $matches[0]);
+                return str_replace($matches[1], preg_replace('/\s+/', '\s', $matches[1]), $matches[0]);
             },
             $path
         );
@@ -90,7 +90,7 @@ class Query
         $paths    = ['//'];
         $path     = preg_replace('|\s+>\s+|', '>', $path);
         $segments = preg_split('/\s+/', $path);
-        $segments = str_replace('{--WHITESPACE--}', ' ', $segments);
+        $segments = str_replace('\s', ' ', $segments);
 
         foreach ($segments as $key => $segment) {
             $pathSegment = static::_tokenize($segment);
