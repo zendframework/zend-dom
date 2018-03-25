@@ -78,9 +78,20 @@ class Query
             return implode('|', $expressions);
         }
 
+        // Arbitrary attribute value contains whitespace
+        $path = preg_replace_callback(
+            '/\[\S+["\'](.+)["\']\]/',
+            function ($matches) {
+                return str_replace($matches[1], preg_replace('/\s+/', '{--WHITESPACE--}', $matches[1]), $matches[0]);
+            },
+            $path
+        );
+
         $paths    = ['//'];
         $path     = preg_replace('|\s+>\s+|', '>', $path);
         $segments = preg_split('/\s+/', $path);
+        $segments = str_replace('{--WHITESPACE--}', ' ', $segments);
+
         foreach ($segments as $key => $segment) {
             $pathSegment = static::_tokenize($segment);
             if (0 == $key) {
