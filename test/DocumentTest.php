@@ -10,6 +10,7 @@
 namespace ZendTest\Dom;
 
 use DOMDocument;
+use PHPUnit\Framework\TestCase;
 use Zend\Dom\Document;
 use Zend\Dom\Exception\ExceptionInterface as DOMException;
 use Zend\Dom\Exception\RuntimeException;
@@ -18,10 +19,11 @@ use Zend\Dom\Exception\RuntimeException;
  * @covers Zend\Dom\Document
  * @covers Zend\Dom\Document\Query::execute
  */
-class DocumentTest extends \PHPUnit_Framework_TestCase
+class DocumentTest extends TestCase
 {
     /** @var null|string */
     protected $html;
+
     /** @var Document */
     protected $document;
 
@@ -73,7 +75,8 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testDomDocShouldRaiseExceptionByDefault()
     {
-        $this->setExpectedException(RuntimeException::class, 'no document');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('no document');
         $this->document->getDomDocument();
     }
 
@@ -113,7 +116,8 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 
     public function testQueryingWithoutRegisteringDocumentShouldThrowException()
     {
-        $this->setExpectedException(RuntimeException::class, 'no document');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('no document');
         Document\Query::execute('.foo', $this->document, Document\Query::TYPE_CSS);
     }
 
@@ -121,7 +125,8 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     {
         set_error_handler([$this, 'handleError']);
         $this->document = new Document('some bogus string', Document::DOC_XML);
-        $this->setExpectedException(DOMException::class, 'Error parsing');
+        $this->expectException(DOMException::class);
+        $this->expectExceptionMessage('Error parsing');
         try {
             Document\Query::execute('.foo', $this->document, Document\Query::TYPE_CSS);
         } finally {
@@ -153,42 +158,42 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     {
         $this->loadHtml();
         $result = Document\Query::execute('.foo', $this->document, Document\Query::TYPE_CSS);
-        $this->assertEquals(3, count($result));
+        $this->assertCount(3, $result);
     }
 
     public function testQueryShouldFindNodesWithMultipleClasses()
     {
         $this->loadHtml();
         $result = Document\Query::execute('.footerblock .last', $this->document, Document\Query::TYPE_CSS);
-        $this->assertEquals(1, count($result));
+        $this->assertCount(1, $result);
     }
 
     public function testQueryShouldFindNodesWithArbitraryAttributeSelectorsExactly()
     {
         $this->loadHtml();
         $result = Document\Query::execute('div[dojoType="FilteringSelect"]', $this->document, Document\Query::TYPE_CSS);
-        $this->assertEquals(1, count($result));
+        $this->assertCount(1, $result);
     }
 
     public function testQueryShouldFindNodesWithArbitraryAttributeSelectorsAsDiscreteWords()
     {
         $this->loadHtml();
         $result = Document\Query::execute('li[dojoType~="bar"]', $this->document, Document\Query::TYPE_CSS);
-        $this->assertEquals(2, count($result));
+        $this->assertCount(2, $result);
     }
 
     public function testQueryShouldFindNodesWithArbitraryAttributeSelectorsAndAttributeValue()
     {
         $this->loadHtml();
         $result = Document\Query::execute('li[dojoType*="bar"]', $this->document, Document\Query::TYPE_CSS);
-        $this->assertEquals(2, count($result));
+        $this->assertCount(2, $result);
     }
 
     public function testQueryXpathShouldAllowQueryingArbitraryUsingXpath()
     {
         $this->loadHtml();
         $result = Document\Query::execute('//li[contains(@dojotype, "bar")]', $this->document);
-        $this->assertEquals(2, count($result));
+        $this->assertCount(2, $result);
     }
 
     public function testXpathPhpFunctionsShouldBeDisabledByDefault()
@@ -273,19 +278,19 @@ HTML;
             $this->document,
             Document\Query::TYPE_CSS
         );
-        $this->assertEquals(2, count($result));
+        $this->assertCount(2, $result);
         $result = Document\Query::execute(
             'input[value="1"][type~="hidden"]',
             $this->document,
             Document\Query::TYPE_CSS
         );
-        $this->assertEquals(2, count($result));
+        $this->assertCount(2, $result);
         $result = Document\Query::execute(
             'input[type="hidden"][value="0"]',
             $this->document,
             Document\Query::TYPE_CSS
         );
-        $this->assertEquals(1, count($result));
+        $this->assertCount(1, $result);
     }
 
     /**
@@ -322,8 +327,8 @@ HTML;
     {
         $this->document = new Document($this->getHtml(), null, 'utf-8');
         $result = Document\Query::execute('.foo', $this->document, Document\Query::TYPE_CSS);
-        $this->assertInstanceof(Document\NodeList::class, $result);
-        $this->assertInstanceof(DOMDocument::class, $this->document->getDomDocument());
+        $this->assertInstanceOf(Document\NodeList::class, $result);
+        $this->assertInstanceOf(DOMDocument::class, $this->document->getDomDocument());
         $this->assertEquals('utf-8', $this->document->getEncoding());
     }
 
@@ -378,7 +383,7 @@ XML;
 </results>
 XML;
         $this->document = new Document($xml);
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         Document\Query::execute('/', $this->document);
     }
 

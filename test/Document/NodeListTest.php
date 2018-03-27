@@ -12,13 +12,14 @@ namespace ZendTest\Dom\Document;
 use DOMDocument;
 use DOMNode;
 use DOMNodeList;
+use PHPUnit\Framework\TestCase;
 use Zend\Dom\Document\NodeList;
 use Zend\Dom\Exception\BadMethodCallException;
 
 /**
  * @covers Zend\Dom\Document\NodeList
  */
-class NodeListTest extends \PHPUnit_Framework_TestCase
+class NodeListTest extends TestCase
 {
     /** @var DOMNodeList */
     protected $domNodeList;
@@ -80,13 +81,15 @@ class NodeListTest extends \PHPUnit_Framework_TestCase
 
     public function testItsNotPossibleAddElements()
     {
-        $this->setExpectedException(BadMethodCallException::class, 'Attempting to write to a read-only list');
+        $this->expectException(BadMethodCallException::class);
+        $this->expectExceptionMessage('Attempting to write to a read-only list');
         $this->nodeList[0] = '<foobar />';
     }
 
     public function testOffsetUnset()
     {
-        $this->setExpectedException(BadMethodCallException::class, 'Attempting to unset on a read-only list');
+        $this->expectException(BadMethodCallException::class);
+        $this->expectExceptionMessage('Attempting to unset on a read-only list');
         unset($this->nodeList[0]);
     }
 }

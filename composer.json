@@ -3,24 +3,28 @@
     "description": "provides tools for working with DOM documents and structures",
     "license": "BSD-3-Clause",
     "keywords": [
-        "zf2",
+        "zf",
+        "zendframework",
         "dom"
     ],
-    "homepage": "https://github.com/zendframework/zend-dom",
-    "autoload": {
-        "psr-4": {
-            "Zend\\Dom\\": "src/"
-        }
+    "support": {
+        "docs": "https://docs.zendframework.com/zend-dom/",
+        "issues": "https://github.com/zendframework/zend-dom/issues",
+        "source": "https://github.com/zendframework/zend-dom",
+        "rss": "https://github.com/zendframework/zend-dom/releases.atom",
+        "slack": "https://zendframework-slack.herokuapp.com",
+        "forum": "https://discourse.zendframework.com/c/questions/components"
     },
     "require": {
         "php": "^5.6 || ^7.0"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.5-dev",
-            "dev-develop": "2.6-dev"
+    "require-dev": {
+        "phpunit/phpunit": "^5.7.23 || ^6.4.3",
+        "zendframework/zend-coding-standard": "~1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Zend\\Dom\\": "src/"
         }
     },
     "autoload-dev": {
@@ -28,9 +32,14 @@
             "ZendTest\\Dom\\": "test/"
         }
     },
-    "require-dev": {
-        "phpunit/PHPUnit": "~4.0",
-        "zendframework/zend-coding-standard": "~1.0.0"
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.6-dev",
+            "dev-develop": "2.7-dev"
+        }
     },
     "scripts": {
         "check": [
@@ -40,6 +49,6 @@
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
         "test": "phpunit --colors=always",
-        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
     }
 }
