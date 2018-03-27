@@ -6,6 +6,12 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
+- [#20](https://github.com/zendframework/zend-dom/pull/4) adds support for
+  attribute selectors that contain spaces, such as `input[value="Marty McFly"]`.
+  Previously, spaces within the selector value would result in a query per
+  space-separated word; they now, correctly, result in a single query for the
+  exact value.
+
 - [#19](https://github.com/zendframework/zend-dom/pull/4) adds support for PHP
   versions 7.1 and 7.2.
 
