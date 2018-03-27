@@ -12,8 +12,8 @@ namespace Zend\Dom;
 use ArrayAccess;
 use Countable;
 use DOMDocument;
-use DOMNodeList;
 use DOMNode;
+use DOMNodeList;
 use Iterator;
 
 /**
@@ -65,8 +65,13 @@ class NodeList implements Iterator, Countable, ArrayAccess
      * @param DOMNodeList  $nodeList
      * @param DOMNode|null $contextNode
      */
-    public function __construct($cssQuery, $xpathQuery, DOMDocument $document, DOMNodeList $nodeList, DOMNode $contextNode = null)
-    {
+    public function __construct(
+        $cssQuery,
+        $xpathQuery,
+        DOMDocument $document,
+        DOMNodeList $nodeList,
+        DOMNode $contextNode = null
+    ) {
         $this->cssQuery    = $cssQuery;
         $this->xpathQuery  = $xpathQuery;
         $this->document    = $document;

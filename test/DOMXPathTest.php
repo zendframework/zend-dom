@@ -12,7 +12,7 @@ namespace ZendTest\Dom;
 use DOMDocument;
 use DOMNodeList;
 use ErrorException;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Dom\DOMXPath;
 
 class DOMXPathTest extends TestCase
@@ -38,7 +38,8 @@ class DOMXPathTest extends TestCase
     {
         $domXPath = new DOMXPath($this->document);
 
-        $this->setExpectedException(ErrorException::class, 'Invalid expression');
+        $this->expectException(ErrorException::class);
+        $this->expectExceptionMessage('Invalid expression');
         $domXPath->queryWithErrorException('any#any');
     }
 }

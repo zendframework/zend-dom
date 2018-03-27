@@ -9,12 +9,13 @@
 
 namespace ZendTest\Dom\Document;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Dom\Document\Query;
 
 /**
  * @covers Zend\Dom\Document\Query
  */
-class QueryTest extends \PHPUnit_Framework_TestCase
+class QueryTest extends TestCase
 {
     public function testTransformShouldReturnStringByDefault()
     {
@@ -30,7 +31,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $test = Query::cssToXpath('#foo, #bar');
         $this->assertInternalType('string', $test);
         $this->assertContains('|', $test);
-        $this->assertEquals(2, count(explode('|', $test)));
+        $this->assertCount(2, explode('|', $test));
     }
 
     public function testTransformShouldRecognizeHashSymbolAsId()
@@ -87,12 +88,14 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $test = Query::cssToXpath('div.foo .bar a .baz span');
         $this->assertContains('|', $test);
+        // @codingStandardsIgnoreStart
         $segments = [
             "//div[contains(concat(' ', normalize-space(@class), ' '), ' foo ')]//*[contains(concat(' ', normalize-space(@class), ' '), ' bar ')]//a//*[contains(concat(' ', normalize-space(@class), ' '), ' baz ')]//span",
             "//div[contains(concat(' ', normalize-space(@class), ' '), ' foo ')]//*[contains(concat(' ', normalize-space(@class), ' '), ' bar ')]//a[contains(concat(' ', normalize-space(@class), ' '), ' baz ')]//span",
             "//div[contains(concat(' ', normalize-space(@class), ' '), ' foo ')][contains(concat(' ', normalize-space(@class), ' '), ' bar ')]//a//*[contains(concat(' ', normalize-space(@class), ' '), ' baz ')]//span",
             "//div[contains(concat(' ', normalize-space(@class), ' '), ' foo ')][contains(concat(' ', normalize-space(@class), ' '), ' bar ')]//a[contains(concat(' ', normalize-space(@class), ' '), ' baz ')]//span",
         ];
+        // @codingStandardsIgnoreEnd
         foreach ($segments as $xpath) {
             $this->assertContains($xpath, $test);
         }
