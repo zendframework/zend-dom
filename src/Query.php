@@ -257,14 +257,14 @@ class Query
                 break;
         }
         $errors = libxml_get_errors();
-        if (!empty($errors)) {
+        if (! empty($errors)) {
             $this->documentErrors = $errors;
             libxml_clear_errors();
         }
         libxml_disable_entity_loader(false);
         libxml_use_internal_errors(false);
 
-        if (!$success) {
+        if (! $success) {
             throw new Exception\RuntimeException(sprintf('Error parsing document (type == %s)', $type));
         }
 
