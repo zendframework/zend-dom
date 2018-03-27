@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.7.0 - TBD
+## 2.7.0 - 2018-03-27
 
 ### Added
 
@@ -14,6 +14,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#19](https://github.com/zendframework/zend-dom/pull/4) adds support for PHP
   versions 7.1 and 7.2.
+
+- Adds documentation and publishes it to https://docs.zendframework.com/zend-dom/
 
 ### Deprecated
 
@@ -27,24 +29,6 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#13](https://github.com/zendframework/zend-dom/pull/4) and
   [#19](https://github.com/zendframework/zend-dom/pull/4) remove support for HHVM.
-
-### Fixed
-
-- Nothing.
-
-## 2.6.1 - TBD
-
-### Added
-
-- Adds documentation and publishes it to https://zendframework.github.com/zend-dom/
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
 
 ### Fixed
 
