@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#19](https://github.com/zendframework/zend-dom/pull/4) adds support for PHP
+  versions 7.1 and 7.2.
 
 ### Deprecated
 
@@ -14,7 +15,12 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- Nothing.
+- [#13](https://github.com/zendframework/zend-dom/pull/4) and
+  [#19](https://github.com/zendframework/zend-dom/pull/4) remove support for PHP
+  versions prior to 5.6.
+
+- [#13](https://github.com/zendframework/zend-dom/pull/4) and
+  [#19](https://github.com/zendframework/zend-dom/pull/4) remove support for HHVM.
 
 ### Fixed
 
