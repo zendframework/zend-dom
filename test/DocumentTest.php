@@ -195,7 +195,10 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     {
         $this->loadHtml();
         try {
-            $result = Document\Query::execute('//meta[php:functionString("strtolower", @http-equiv) = "content-type"]', $this->document);
+            $result = Document\Query::execute(
+                '//meta[php:functionString("strtolower", @http-equiv) = "content-type"]',
+                $this->document
+            );
         } catch (\Exception $e) {
             return;
         }
@@ -206,7 +209,10 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     {
         $this->loadHtml();
         $this->document->registerXpathPhpFunctions();
-        $result = Document\Query::execute('//meta[php:functionString("strtolower", @http-equiv) = "content-type"]', $this->document);
+        $result = Document\Query::execute(
+            '//meta[php:functionString("strtolower", @http-equiv) = "content-type"]',
+            $this->document
+        );
         $this->assertEquals(
             'content-type',
             strtolower($result->current()->getAttribute('http-equiv'))
@@ -218,7 +224,10 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $this->loadHtml();
         try {
             $this->document->registerXpathPhpFunctions('stripos');
-            $result = Document\Query::execute('//meta[php:functionString("strtolower", @http-equiv) = "content-type"]', $this->document);
+            $result = Document\Query::execute(
+                '//meta[php:functionString("strtolower", @http-equiv) = "content-type"]',
+                $this->document
+            );
         } catch (\Exception $e) {
             // $e->getMessage() - Not allowed to call handler 'strtolower()
             return;
@@ -259,11 +268,23 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 HTML;
 
         $this->document = new Document($html);
-        $result = Document\Query::execute('input[type="hidden"][value="1"]', $this->document, Document\Query::TYPE_CSS);
+        $result = Document\Query::execute(
+            'input[type="hidden"][value="1"]',
+            $this->document,
+            Document\Query::TYPE_CSS
+        );
         $this->assertEquals(2, count($result));
-        $result = Document\Query::execute('input[value="1"][type~="hidden"]', $this->document, Document\Query::TYPE_CSS);
+        $result = Document\Query::execute(
+            'input[value="1"][type~="hidden"]',
+            $this->document,
+            Document\Query::TYPE_CSS
+        );
         $this->assertEquals(2, count($result));
-        $result = Document\Query::execute('input[type="hidden"][value="0"]', $this->document, Document\Query::TYPE_CSS);
+        $result = Document\Query::execute(
+            'input[type="hidden"][value="0"]',
+            $this->document,
+            Document\Query::TYPE_CSS
+        );
         $this->assertEquals(1, count($result));
     }
 
