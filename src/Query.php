@@ -312,8 +312,8 @@ class Query
         if ($this->xpathPhpFunctions) {
             $xpath->registerNamespace("php", "http://php.net/xpath");
             ($this->xpathPhpFunctions === true) ?
-                $xpath->registerPHPFunctions()
-                : $xpath->registerPHPFunctions($this->xpathPhpFunctions);
+                $xpath->registerPhpFunctions()
+                : $xpath->registerPhpFunctions($this->xpathPhpFunctions);
         }
         $xpathQuery = (string) $xpathQuery;
 
