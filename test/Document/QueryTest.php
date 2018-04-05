@@ -172,4 +172,10 @@ class QueryTest extends TestCase
         $test = Query::cssToXpath('a[@href="http://example.com"]');
         $this->assertEquals("//a[@href='http://example.com']", $test);
     }
+
+    public function testTransformNestedAttributeSelectors()
+    {
+        $test = Query::cssToXpath('select[name="foo"] option[selected="selected"]');
+        $this->assertEquals("//select[@name='foo']//option[@selected='selected']", $test);
+    }
 }
