@@ -96,7 +96,7 @@ class Query
         );
 
         $paths    = ['//'];
-        $path     = preg_replace('|\s+>\s+|', '>', $path);
+        $path     = preg_replace('|\s*>\s*|', '>', $path);
         $segments = preg_split('/\s+/', $path);
         $segments = str_replace('\s', ' ', $segments);
 

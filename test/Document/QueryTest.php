@@ -134,13 +134,26 @@ class QueryTest extends TestCase
         $this->assertEquals("//tag[@id='id']//@attribute", $test);
     }
 
+    public function descendantSelector()
+    {
+        yield 'space before' => ['child >leaf'];
+        yield 'space after' => ['child> leaf'];
+        yield 'no spaces' => ['child>leaf'];
+        yield 'with spaces' => ['child > leaf'];
+        yield 'more spaces' => ['child   >   leaf'];
+    }
+
     /**
      * @group ZF-8006
+     *
+     * @dataProvider descendantSelector
+     *
+     * @param string $path
      */
-    public function testShouldAllowWhitespaceInDescendantSelectorExpressions()
+    public function testShouldAllowWhitespaceInDescendantSelectorExpressions($path)
     {
-        $test = Query::cssToXpath('child > leaf');
-        $this->assertEquals("//child/leaf", $test);
+        $test = Query::cssToXpath($path);
+        $this->assertEquals('//child/leaf', $test);
     }
 
     /**
