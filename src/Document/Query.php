@@ -86,11 +86,15 @@ class Query
             return implode('|', $expressions);
         }
 
+        do {
+            $placeholder = '{' . uniqid(mt_rand(), true) . '}';
+        } while (strpos($path, $placeholder) !== false);
+
         // Arbitrary attribute value contains whitespace
         $path = preg_replace_callback(
             '/\[\S+["\'](.+)["\']\]/',
-            function ($matches) {
-                return str_replace($matches[1], preg_replace('/\s+/', '\s', $matches[1]), $matches[0]);
+            function ($matches) use ($placeholder) {
+                return str_replace($matches[1], preg_replace('/\s+/', $placeholder, $matches[1]), $matches[0]);
             },
             $path
         );
@@ -98,7 +102,7 @@ class Query
         $paths    = ['//'];
         $path     = preg_replace('|\s+>\s+|', '>', $path);
         $segments = preg_split('/\s+/', $path);
-        $segments = str_replace('\s', ' ', $segments);
+        $segments = str_replace($placeholder, ' ', $segments);
 
         foreach ($segments as $key => $segment) {
             $pathSegment = static::_tokenize($segment);
