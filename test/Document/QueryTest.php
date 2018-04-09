@@ -173,9 +173,33 @@ class QueryTest extends TestCase
         $this->assertEquals("//a[@href='http://example.com']", $test);
     }
 
-    public function testTransformNestedAttributeSelectors()
+    public function nestedAttributeSelectors()
     {
-        $test = Query::cssToXpath('select[name="foo"] option[selected="selected"]');
-        $this->assertEquals("//select[@name='foo']//option[@selected='selected']", $test);
+        return [
+            'with-double-quotes' => [
+                'select[name="foo"] option[selected="selected"]',
+                "//select[@name='foo']//option[@selected='selected']",
+            ],
+            'with-single-quotes' => [
+                "select[name='foo'] option[selected='selected']",
+                "//select[@name='foo']//option[@selected='selected']",
+            ],
+            'double-quotes-containing-single-quotes' => [
+                "select[name=\"f'oo\"] option[selected=\"sel'ected\"]",
+                "//select[@name='f\'oo']//option[@selected='sel\'ected']",
+            ],
+            'single-quotes-containing-double-quotes' => [
+                "select[name='f\"oo'] option[selected='sel\"ected']",
+                "//select[@name='f\"oo']//option[@selected='sel\"ected']",
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider nestedAttributeSelectors
+     */
+    public function testTransformNestedAttributeSelectors($selector, $expectedXpath)
+    {
+        $this->assertEquals($expectedXpath, Query::cssToXpath($selector));
     }
 }

@@ -88,7 +88,7 @@ class Query
 
         // Arbitrary attribute value contains whitespace
         $path = preg_replace_callback(
-            '/\[\S+?(["\'])(.+?)\1\]/',
+            '/\[\S+?([\'"])((?:(?!\1)[^\\\]|\\.)*)\1\]/',
             function ($matches) {
                 return str_replace($matches[2], preg_replace('/\s+/', '\s', $matches[2]), $matches[0]);
             },
@@ -147,29 +147,29 @@ class Query
 
         // arbitrary attribute strict equality
         $expression = preg_replace_callback(
-            '|\[@?([a-z0-9_-]+)=[\'"]([^\'"]+)[\'"]\]|i',
+            '/\[@?([a-z0-9_-]+)=([\'"])((?:(?!\2)[^\\\]|\\.)*)\2\]/i',
             function ($matches) {
-                return '[@' . strtolower($matches[1]) . "='" . $matches[2] . "']";
+                return sprintf("[@%s='%s']", strtolower($matches[1]), str_replace("'", "\\'", $matches[3]));
             },
             $expression
         );
 
         // arbitrary attribute contains full word
         $expression = preg_replace_callback(
-            '|\[([a-z0-9_-]+)~=[\'"]([^\'"]+)[\'"]\]|i',
+            '/\[([a-z0-9_-]+)~=([\'"])((?:(?!\2)[^\\\]|\\.)*)\2\]/i',
             function ($matches) {
                 return "[contains(concat(' ', normalize-space(@" . strtolower($matches[1]) . "), ' '), ' "
-                     . $matches[2] . " ')]";
+                     . $matches[3] . " ')]";
             },
             $expression
         );
 
         // arbitrary attribute contains specified content
         $expression = preg_replace_callback(
-            '|\[([a-z0-9_-]+)\*=[\'"]([^\'"]+)[\'"]\]|i',
+            '/\[([a-z0-9_-]+)\*=([\'"])((?:(?!\2)[^\\\]|\\.)*)\2\]/i',
             function ($matches) {
                 return "[contains(@" . strtolower($matches[1]) . ", '"
-                     . $matches[2] . "')]";
+                     . $matches[3] . "')]";
             },
             $expression
         );
