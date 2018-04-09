@@ -48,6 +48,10 @@ All notable changes to this project will be documented in this file, in reverse 
   matching against nested attribute selectors (e.g., `div[class="foo"] div
   [class="bar"]`), ensuring such syntax will transform to expected XPath.
 
+- [#22](https://github.com/zendframework/zend-dom/pull/22) adds a missing import
+  statement for the `DOMNode` class to the (deprecated) `Zend\Dom\Query` class
+  definition.
+
 ## 2.7.0 - 2018-03-27
 
 ### Added

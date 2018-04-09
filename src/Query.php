@@ -10,6 +10,7 @@
 namespace Zend\Dom;
 
 use DOMDocument;
+use DOMNode;
 
 /**
  * Query DOM structures based on CSS selectors and/or XPath
