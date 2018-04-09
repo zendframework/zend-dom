@@ -86,11 +86,15 @@ class Query
             return implode('|', $expressions);
         }
 
+        do {
+            $placeholder = '{' . uniqid(mt_rand(), true) . '}';
+        } while (strpos($path, $placeholder) !== false);
+
         // Arbitrary attribute value contains whitespace
         $path = preg_replace_callback(
-            '/\[\S+?([\'"])((?:(?!\1)[^\\\]|\\.)*)\1\]/',
-            function ($matches) {
-                return str_replace($matches[2], preg_replace('/\s+/', '\s', $matches[2]), $matches[0]);
+            '/\[\S+?([\'"])((?!\1|\\\1).*?)\1\]/',
+            function ($matches) use ($placeholder) {
+                return str_replace($matches[2], preg_replace('/\s+/', $placeholder, $matches[2]), $matches[0]);
             },
             $path
         );
@@ -98,7 +102,7 @@ class Query
         $paths    = ['//'];
         $path     = preg_replace('|\s+>\s+|', '>', $path);
         $segments = preg_split('/\s+/', $path);
-        $segments = str_replace('\s', ' ', $segments);
+        $segments = str_replace($placeholder, ' ', $segments);
 
         foreach ($segments as $key => $segment) {
             $pathSegment = static::_tokenize($segment);
@@ -147,7 +151,7 @@ class Query
 
         // arbitrary attribute strict equality
         $expression = preg_replace_callback(
-            '/\[@?([a-z0-9_-]+)=([\'"])((?:(?!\2)[^\\\]|\\.)*)\2\]/i',
+            '/\[@?([a-z0-9_-]+)=([\'"])((?!\2|\\\2).*?)\2\]/i',
             function ($matches) {
                 return sprintf("[@%s='%s']", strtolower($matches[1]), str_replace("'", "\\'", $matches[3]));
             },
@@ -156,7 +160,7 @@ class Query
 
         // arbitrary attribute contains full word
         $expression = preg_replace_callback(
-            '/\[([a-z0-9_-]+)~=([\'"])((?:(?!\2)[^\\\]|\\.)*)\2\]/i',
+            '/\[([a-z0-9_-]+)~=([\'"])((?!\2|\\\2).*?)\2\]/i',
             function ($matches) {
                 return "[contains(concat(' ', normalize-space(@" . strtolower($matches[1]) . "), ' '), ' "
                      . $matches[3] . " ')]";
@@ -166,7 +170,7 @@ class Query
 
         // arbitrary attribute contains specified content
         $expression = preg_replace_callback(
-            '/\[([a-z0-9_-]+)\*=([\'"])((?:(?!\2)[^\\\]|\\.)*)\2\]/i',
+            '/\[([a-z0-9_-]+)\*=([\'"])((?!\2|\\\2).*?)\2\]/i',
             function ($matches) {
                 return "[contains(@" . strtolower($matches[1]) . ", '"
                      . $matches[3] . "')]";

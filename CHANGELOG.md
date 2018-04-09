@@ -24,7 +24,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Nothing.
 
-## 2.7.1 - TBD
+## 2.7.1 - 2018-04-09
 
 ### Added
 
@@ -51,6 +51,10 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#22](https://github.com/zendframework/zend-dom/pull/22) adds a missing import
   statement for the `DOMNode` class to the (deprecated) `Zend\Dom\Query` class
   definition.
+
+- [#24](https://github.com/zendframework/zend-dom/pull/24) updates how the
+  tokenizer marks multiple words within attribute values in order to be
+  more robust.
 
 ## 2.7.0 - 2018-03-27
 
