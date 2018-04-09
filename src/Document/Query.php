@@ -88,9 +88,9 @@ class Query
 
         // Arbitrary attribute value contains whitespace
         $path = preg_replace_callback(
-            '/\[\S+?["\'](.+?)["\']\]/',
+            '/\[\S+?(["\'])(.+?)\1\]/',
             function ($matches) {
-                return str_replace($matches[1], preg_replace('/\s+/', '\s', $matches[1]), $matches[0]);
+                return str_replace($matches[2], preg_replace('/\s+/', '\s', $matches[2]), $matches[0]);
             },
             $path
         );
