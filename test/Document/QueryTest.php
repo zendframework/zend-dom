@@ -202,4 +202,10 @@ class QueryTest extends TestCase
     {
         $this->assertEquals($expectedXpath, Query::cssToXpath($selector));
     }
+
+    public function testAttributeValueWithBackslash()
+    {
+        $test = Query::cssToXpath('select[name="\stop  \start"]');
+        $this->assertEquals("//select[@name='\stop \start']", $test);
+    }
 }
