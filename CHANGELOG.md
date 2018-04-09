@@ -56,6 +56,10 @@ All notable changes to this project will be documented in this file, in reverse 
   tokenizer marks multiple words within attribute values in order to be
   more robust.
 
+- [#23](https://github.com/zendframework/zend-dom/pull/23) fixes an issue with
+  how descendant selectors work, ensuring spaces may be used around the `>`
+  operator.
+
 ## 2.7.0 - 2018-03-27
 
 ### Added
