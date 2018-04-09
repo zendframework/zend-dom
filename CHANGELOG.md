@@ -44,19 +44,21 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#21](https://github.com/zendframework/zend-dom/pull/21) fixes an issue with
+  matching against nested attribute selectors (e.g., `div[class="foo"] div
+  [class="bar"]`), ensuring such syntax will transform to expected XPath.
 
 ## 2.7.0 - 2018-03-27
 
 ### Added
 
-- [#20](https://github.com/zendframework/zend-dom/pull/4) adds support for
+- [#20](https://github.com/zendframework/zend-dom/pull/20) adds support for
   attribute selectors that contain spaces, such as `input[value="Marty McFly"]`.
   Previously, spaces within the selector value would result in a query per
   space-separated word; they now, correctly, result in a single query for the
   exact value.
 
-- [#19](https://github.com/zendframework/zend-dom/pull/4) adds support for PHP
+- [#19](https://github.com/zendframework/zend-dom/pull/19) adds support for PHP
   versions 7.1 and 7.2.
 
 - Adds documentation and publishes it to https://docs.zendframework.com/zend-dom/
@@ -67,12 +69,12 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- [#13](https://github.com/zendframework/zend-dom/pull/4) and
-  [#19](https://github.com/zendframework/zend-dom/pull/4) remove support for PHP
+- [#13](https://github.com/zendframework/zend-dom/pull/13) and
+  [#19](https://github.com/zendframework/zend-dom/pull/19) remove support for PHP
   versions prior to 5.6.
 
-- [#13](https://github.com/zendframework/zend-dom/pull/4) and
-  [#19](https://github.com/zendframework/zend-dom/pull/4) remove support for HHVM.
+- [#13](https://github.com/zendframework/zend-dom/pull/13) and
+  [#19](https://github.com/zendframework/zend-dom/pull/19) remove support for HHVM.
 
 ### Fixed
 
@@ -82,7 +84,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#2](https://github.com/zendframework/zend-dom/pull/4) ads context node
+- [#2](https://github.com/zendframework/zend-dom/pull/2) adds context node
   support for DOMXPath->query that supports querying in the context of a
   specific node.
 
