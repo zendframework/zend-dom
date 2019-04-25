@@ -238,6 +238,7 @@ class Query
             $domDoc = new DOMDocument('1.0');
         } else {
             $domDoc = new DOMDocument('1.0', $encoding);
+            $document = mb_convert_encoding($document, 'HTML-ENTITIES', $encoding);
         }
         $type   = $this->getDocumentType();
         switch ($type) {
