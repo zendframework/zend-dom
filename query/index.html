@@ -286,7 +286,8 @@ following, in any combination:</p>
   arbitrary depth beneath an element with a class of <code>foo</code>, that is an
   descendent of arbitrary depth beneath a <code>div</code> element. For example, it would
   match the link to the word 'One' in the listing below:</p>
-<pre class="codehilite"><code class="language-html">&lt;div&gt;
+<p><code>html
+&lt;div&gt;
 &lt;table&gt;
     &lt;tr&gt;
         &lt;td class="foo"&gt;
@@ -301,8 +302,7 @@ following, in any combination:</p>
         &lt;/td&gt;
     &lt;/tr&gt;
 &lt;/table&gt;
-&lt;/div&gt;</code></pre>
-
+&lt;/div&gt;</code></p>
 </li>
 </ul>
 <p>Once you've performed your query, you can then work with the result object to
@@ -311,7 +311,7 @@ content directly for examination and manipulation. <code>Zend\Dom\NodeList</code
 implements <code>Countable</code> and <code>Iterator</code>, and stores the results internally as a
 <a href="http://php.net/domdocument">DOMDocument</a> and <a href="http://php.net/domnodelist">DOMNodeList</a>.</p>
 <p>As an example, consider the following call, that selects against the HTML above:</p>
-<pre class="codehilite"><code class="language-php">use Zend\Dom\Query;
+<p> <pre class=codehilite><code class=language-php>use Zend\Dom\Query;
 
 $dom = new Query($html);
 $results = $dom-&gt;execute('.foo .bar a');
@@ -319,15 +319,14 @@ $results = $dom-&gt;execute('.foo .bar a');
 $count = count($results); // get number of matches: 4
 foreach ($results as $result) {
     // $result is a DOMElement
-}</code></pre>
-
+}</code></pre></p>
 <p><code>Zend\Dom\Query</code> also allows straight XPath queries utilizing the <code>queryXpath()</code>
 method; you can pass any valid XPath query to this method, and it will return a
 <code>Zend\Dom\NodeList</code> object.</p>
 <h2 id="methods-available">Methods Available</h2>
 <p>Below is a listing of methods available in the various classes exposed by
 zend-dom.</p>
-<h3 id="zend92dom92query">Zend\Dom\Query</h3>
+<h3>Zend\Dom\Query</h3>
 <p>The following methods are available to <code>Zend\Dom\Query</code>:</p>
 <ul>
 <li><code>setDocumentXml($document, $encoding = null)</code>: specify an XML string to query against.</li>
@@ -346,7 +345,7 @@ zend-dom.</p>
 <li><code>execute($query)</code>: query the document using CSS selector notation.</li>
 <li><code>queryXpath($xPathQuery)</code>: query the document using XPath notation.</li>
 </ul>
-<h3 id="zend92dom92nodelist">Zend\Dom\NodeList</h3>
+<h3>Zend\Dom\NodeList</h3>
 <p>As mentioned previously, <code>Zend\Dom\NodeList</code> implements both <code>Iterator</code> and
 <code>Countable</code>, and as such can be used in a <code>foreach()</code> loop as well as with the
 <code>count()</code> function. Additionally, it exposes the following methods:</p>
@@ -387,7 +386,7 @@ zend-dom.</p>
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-dom/edit/master/docs/query.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-dom/edit/master/docs/book/query.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>
