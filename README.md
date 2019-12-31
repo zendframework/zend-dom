@@ -1,5 +1,9 @@
 # zend-dom
 
+> ## Repository abandoned 2019-12-31
+>
+> This repository has moved to laminas/laminas-dom.
+
 [![Build Status](https://secure.travis-ci.org/zendframework/zend-dom.svg?branch=master)](https://secure.travis-ci.org/zendframework/zend-dom)
 [![Coverage Status](https://coveralls.io/repos/github/zendframework/zend-dom/badge.svg?branch=master)](https://coveralls.io/github/zendframework/zend-dom?branch=master)
 
